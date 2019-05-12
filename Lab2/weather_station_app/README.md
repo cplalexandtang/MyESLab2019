@@ -2,6 +2,12 @@
 
 ## How to use
 
+### install
+
+```
+npm install
+```
+
 ### Run server
 
 ```
