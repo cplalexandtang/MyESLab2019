@@ -26,7 +26,7 @@ public:
         temperatureCharacteristic(GattCharacteristic::UUID_TEMPERATURE_CHAR, &temperature, GattCharacteristic::BLE_GATT_CHAR_PROPERTIES_NOTIFY),
         humidityCharacteristic(GattCharacteristic::UUID_HUMIDITY_CHAR, &humidity, GattCharacteristic::BLE_GATT_CHAR_PROPERTIES_NOTIFY),
         pressureCharacteristic(GattCharacteristic::UUID_PRESSURE_CHAR, &pressure, GattCharacteristic::BLE_GATT_CHAR_PROPERTIES_NOTIFY),
-        windDirectionCharacteristic(GattCharacteristic::UUID_TRUE_WIND_DIRECTION_CHAR, &windDirection, GattCharacteristic::BLE_GATT_CHAR_PROPERTIES_NOTIFY)   {
+        windDirectionCharacteristic(0x2A71, &windDirection, GattCharacteristic::BLE_GATT_CHAR_PROPERTIES_NOTIFY)   {
         
         GattCharacteristic *charTable[] = { &temperatureCharacteristic,
                                             &humidityCharacteristic,

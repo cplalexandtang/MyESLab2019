@@ -1,6 +1,5 @@
 /* mbed Microcontroller Library
  * Copyright (c) 2006-2013 ARM Limited
- * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +25,7 @@ namespace mbed {
 
 /** A Timeout is used to call a function at a point in the future
  *
- * You can use as many separate Timeout objects as you require.
+ * You can use as many seperate Timeout objects as you require.
  *
  * @note Synchronization level: Interrupt safe
  *
@@ -57,10 +56,8 @@ namespace mbed {
  */
 class Timeout : public Ticker, private NonCopyable<Timeout> {
 
-#if !defined(DOXYGEN_ONLY)
 protected:
     virtual void handler();
-#endif
 };
 
 } // namespace mbed

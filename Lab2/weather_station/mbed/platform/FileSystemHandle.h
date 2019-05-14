@@ -1,6 +1,5 @@
 /* mbed Microcontroller Library
  * Copyright (c) 2006-2013 ARM Limited
- * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,7 +101,7 @@ public:
      *  @param buf      The stat buffer to write to
      *  @return         0 on success, negative error code on failure
      */
-    virtual int statvfs(const char *path, struct statvfs *buf);
+     virtual int statvfs(const char *path, struct statvfs *buf);
 };
 /**@}*/
 
@@ -111,3 +110,5 @@ public:
 } // namespace mbed
 
 #endif
+
+/** @}*/

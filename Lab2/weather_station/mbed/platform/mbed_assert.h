@@ -7,7 +7,6 @@
  */
 /* mbed Microcontroller Library
  * Copyright (c) 2006-2013 ARM Limited
- * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,21 +24,20 @@
 #define MBED_ASSERT_H
 
 #include "mbed_preprocessor.h"
-#include "mbed_toolchain.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/** Internal mbed assert function which is invoked when MBED_ASSERT macro fails.
+/** Internal mbed assert function which is invoked when MBED_ASSERT macro failes.
  *  This function is active only if NDEBUG is not defined prior to including this
  *  assert header file.
  *  In case of MBED_ASSERT failing condition, error() is called with the assertation message.
- *  @param expr Expression to be checked.
+ *  @param expr Expresion to be checked.
  *  @param file File where assertation failed.
  *  @param line Failing assertation line number.
  */
-MBED_NORETURN void mbed_assert_internal(const char *expr, const char *file, int line);
+void mbed_assert_internal(const char *expr, const char *file, int line);
 
 #ifdef __cplusplus
 }

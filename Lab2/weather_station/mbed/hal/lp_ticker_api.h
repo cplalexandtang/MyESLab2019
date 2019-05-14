@@ -3,7 +3,6 @@
 /** @{*/
 /* mbed Microcontroller Library
  * Copyright (c) 2015 ARM Limited
- * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,7 +79,7 @@ ticker_irq_handler_type set_lp_ticker_irq_handler(ticker_irq_handler_type ticker
  *
  * @return The low power ticker data
  */
-const ticker_data_t *get_lp_ticker_data(void);
+const ticker_data_t* get_lp_ticker_data(void);
 
 /** The wrapper for ticker_irq_handler, to pass lp ticker's data
  *
@@ -208,7 +207,7 @@ void lp_ticker_disable_interrupt(void);
 void lp_ticker_clear_interrupt(void);
 
 /** Set pending interrupt that should be fired right away.
- *
+ * 
  * Pseudo Code:
  * @code
  * void lp_ticker_fire_interrupt(void)
@@ -233,7 +232,7 @@ void lp_ticker_fire_interrupt(void);
  * }
  * @endcode
  */
-const ticker_info_t *lp_ticker_get_info(void);
+const ticker_info_t* lp_ticker_get_info(void);
 
 /**@}*/
 

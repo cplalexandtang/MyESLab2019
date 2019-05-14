@@ -3,7 +3,6 @@
 /** @{*/
 /* mbed Microcontroller Library
  * Copyright (c) 2006-2013 ARM Limited
- * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +73,7 @@ extern "C" {
  * The processor can be woken up by any internal peripheral interrupt or external pin interrupt.
  *
  * The wake-up time shall be less than 10 us.
- *
+ * 
  */
 void hal_sleep(void);
 

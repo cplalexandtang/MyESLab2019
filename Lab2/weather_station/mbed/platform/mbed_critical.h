@@ -39,7 +39,7 @@ extern "C" {
   * This function can be called to determine whether or not interrupts are currently enabled.
   * @note
   * NOTE:
-  * This function works for both cortex-A and cortex-M, although the underlying implementation
+  * This function works for both cortex-A and cortex-M, although the underlyng implementation
   * differs.
   * @return true if interrupts are enabled, false otherwise
   */
@@ -50,7 +50,7 @@ bool core_util_are_interrupts_enabled(void);
   * This function can be called to determine if the code is running on interrupt context.
   * @note
   * NOTE:
-  * This function works for both cortex-A and cortex-M, although the underlying implementation
+  * This function works for both cortex-A and cortex-M, although the underlyng implementation
   * differs.
   * @return true if in an isr, false otherwise
   */
@@ -88,43 +88,6 @@ void core_util_critical_section_exit(void);
  * @return true if in a critical section, false otherwise.
  */
 bool core_util_in_critical_section(void);
-
-/**
- * A lock-free, primitive atomic flag.
- *
- * Emulate C11's atomic_flag. The flag is initially in an indeterminate state
- * unless explicitly initialized with CORE_UTIL_ATOMIC_FLAG_INIT.
- */
-typedef struct core_util_atomic_flag {
-    uint8_t _flag;
-} core_util_atomic_flag;
-
-/**
- * Initializer for a core_util_atomic_flag.
- *
- * Example:
- * ~~~
- *     core_util_atomic_flag in_progress = CORE_UTIL_ATOMIC_FLAG_INIT;
- * ~~~
- */
-#define CORE_UTIL_ATOMIC_FLAG_INIT { 0 }
-
-/**
- * Atomic test and set.
- *
- * Atomically tests then sets the flag to true, returning the previous value.
- *
- * @param  flagPtr Target flag being tested and set.
- * @return         The previous value.
- */
-bool core_util_atomic_flag_test_and_set(volatile core_util_atomic_flag *flagPtr);
-
-/**
- * Atomic clear.
- *
- * @param  flagPtr Target flag being cleared.
- */
-void core_util_atomic_flag_clear(volatile core_util_atomic_flag *flagPtr);
 
 /**
  * Atomic compare and set. It compares the contents of a memory location to a
@@ -352,7 +315,7 @@ bool core_util_atomic_cas_u32(volatile uint32_t *ptr, uint32_t *expectedCurrentV
  * always succeeds if the current value is expected, as per the pseudocode
  * above; it will not spuriously fail as "atomic_compare_exchange_weak" may.
  */
-bool core_util_atomic_cas_ptr(void *volatile *ptr, void **expectedCurrentValue, void *desiredValue);
+bool core_util_atomic_cas_ptr(void * volatile *ptr, void **expectedCurrentValue, void *desiredValue);
 
 /**
  * Atomic increment.
@@ -387,7 +350,7 @@ uint32_t core_util_atomic_incr_u32(volatile uint32_t *valuePtr, uint32_t delta);
  * @note The type of the pointer argument is not taken into account
  *       and the pointer is incremented by bytes.
  */
-void *core_util_atomic_incr_ptr(void *volatile *valuePtr, ptrdiff_t delta);
+void *core_util_atomic_incr_ptr(void * volatile *valuePtr, ptrdiff_t delta);
 
 /**
  * Atomic decrement.
@@ -422,7 +385,7 @@ uint32_t core_util_atomic_decr_u32(volatile uint32_t *valuePtr, uint32_t delta);
  * @note The type of the pointer argument is not taken into account
  *       and the pointer is decremented by bytes
  */
-void *core_util_atomic_decr_ptr(void *volatile *valuePtr, ptrdiff_t delta);
+void *core_util_atomic_decr_ptr(void * volatile *valuePtr, ptrdiff_t delta);
 
 #ifdef __cplusplus
 } // extern "C"
