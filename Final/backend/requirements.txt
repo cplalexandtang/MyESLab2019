@@ -1,0 +1,5 @@
+gunicorn
+flask
+line-bot-sdk
+fbmq
+requests
