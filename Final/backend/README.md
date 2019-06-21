@@ -1,18 +1,33 @@
 # Line Beacon
 
-This is the development version of the 2019 NTUEE ESLab.
+這是Spring 2019 NTUEE ESLab的期末專案後端系統
 
-這是2019 NTUEE ESLab的開發版本
+## Features
+
+1. 推動抽號碼牌無紙電子化，降低環境負擔
+2. 已抽取的號碼牌自動綁定手機Line UUID，防止重複抽號與黃牛
+3. 若臨時有事，用戶可以直接透過Line取消當前號碼牌
+4. 用戶可以直接在Line看到當前等待人數
+5. 搭配後台系統直接掌握目前等待狀態
+6. 若用戶擅自離開又未取消號碼牌導致過號，一定次數以後可以納入黑名單
+7. 可以直接整合進店家現有Line@帳號，僅須裝置Beacon設備即可
+
+## Future Plannings
+
+1. 創新商業模式：可實做VIP抽號制度，號碼牌讓渡制度
+2. 抽號分流(Ex. 郵局儲匯，郵務業務號碼牌是不同的)
+3. 後台加入優惠活動管理介面，善用號碼牌置入行銷
+4. 後台可以直接紀錄抽號人潮與時間資料，乃具有商業價值的Raw Data
 
 # Line 
 
 ## Profile
 
     {
-        "displayName":"湯大由",
+        "display_name":"湯大由",
         "pictureUrl":"http://dl.profile.line-cdn.net/0m04dc902672512b6bb869019876af85c7c18331680991",
         "statusMessage":null,
-        "userId":"U781764583123e034919f908c837cfeb9"
+        "user_id":"U781764583123e034919f908c837cfeb9"
     }
 
 ## Message Event
