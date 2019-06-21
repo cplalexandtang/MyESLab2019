@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button, CardTitle, CardText, Row, Col, ListGroup, ListGroupItem, Table } from 'reactstrap';
+import { Card, Button, CardText, Row, Col, Table } from 'reactstrap';
 
 const axios = require('axios');
 
@@ -7,19 +7,30 @@ export default class Monitor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      waiting: [],
+      waiting_list: [],
       now: undefined
     };
   }
 
   handleNext = () => {
     let newState = { ...this.state };
-    newState.now = newState.waiting.shift();
+    axios.delete("https://c78fd341.ngrok.io/delete/" + this.state.now)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    newState.now = newState.waiting_list.shift();
     console.log(newState);
     this.setState(newState)
   }
 
   handleWake = () => {
+    axios.get("https://c78fd341.ngrok.io/call/" + this.state.now)
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+
     if (this.state.now)
       alert(this.state.now);
     else
@@ -27,28 +38,31 @@ export default class Monitor extends Component {
   }
 
   update = () => {
-    axios.get("https://bypasscors.herokuapp.com/api/?url=https://2e37c514.ngrok.io/status")
+    axios.get("https://c78fd341.ngrok.io/status")
       .then(res => {
         this.setState(() => {
-          return {
-            now: res.data.waiting_list.shift(),
-            waiting: res.data.waiting_list
-          }
+          console.log(res.data)
+          if (res.data.waiting_list.length >= 0)
+            return {
+              now: res.data.waiting_list.shift(),
+              waiting_list: res.data.waiting_list
+            }
         })
       })
-      .catch(err=>{
+      .catch(err => {
         console.log(err)
       })
   }
 
   componentDidMount() {
-    //setInterval(() => this.update(), 5000);
+    this.update();
+    setInterval(() => this.update(), 10000);
   }
 
   render() {
     return (
       <div>
-        <h1> Moniter </h1>
+        <h4> Moniter </h4>
         <Row style={{ height: "400px" }}>
           <Col xs="6">
             <Card body outline color="primary" style={{ height: "400px" }}>
@@ -69,7 +83,7 @@ export default class Monitor extends Component {
               </thead>
               <tbody>
                 {
-                  this.state.waiting.map((e, id) => {
+                  this.state.waiting_list.map((e, id) => {
                     return (
                       <tr key={id}>
                         <th scope="row">{id}</th>
