@@ -1,12 +1,18 @@
 # Unified Chatbot Interface (UCI)
 
 from flask import Flask, request, abort, render_template, jsonify
+from flask_cors import CORS, cross_origin
 #from messenger import page
-from line import handler
+from line import handler, push_message
 
 import config
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+from flask_socketio import SocketIO, emit
+socketio = SocketIO(app)
 
 # Messenger
 '''@app.route("/webhook", methods=["GET"])
@@ -16,7 +22,7 @@ def validate():
         print("Validating webhook")
         return request.args.get("hub.challenge", "")
     else:
-        return "Failed validation. Make sure the validation tokens match."'''
+        return "Failed validation. Make sure the validation tokens match."
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
@@ -25,31 +31,51 @@ def webhook():
     except Exception as e:
         print(e)
         abort(400)
-    return "OK"
+    return "OK"'''
 
 # Line
 @app.route("/callback", methods=["POST"])
 def callback():
     try:
         handler.handle(request.get_data(as_text=True), request.headers["X-Line-Signature"])
-    except Exception as e:
-        if request.headers.get("X-Line-Signature"):
+    except:
+        '''if request.headers.get("X-Line-Signature"):
             return "OK"
         print(e)
-        abort(400)
+        abort(400)'''
+        pass
     return "OK"
 
 # API
-@app.route("/status")
-def status():
-    import api.number as num
+import api.number as num
 
+@app.route("/status")
+@cross_origin()
+def status():
     queue = num.UserQueue()
     res = queue.waitingList()
 
-    print(res)
     return jsonify({
         "waiting_list" : res
+    })
+
+@app.route("/call/<number>")
+@cross_origin()
+def call(number):
+    queue = num.UserQueue()
+    id = queue.getId(number)
+    push_message(id)
+
+    return "OK"
+
+@app.route("/delete/<number>", methods=["DELETE"])
+@cross_origin()
+def delete(number):
+    queue = num.UserQueue()
+    queue.pop(number = number)
+
+    return jsonify({
+        "status" : "OK"
     })
 
 if __name__ == "__main__":

@@ -37,7 +37,11 @@ def parseMessage(event, profile):
 def parsePostback(event, profile):
     if event.postback.data == "number":
         queue = api.number.UserQueue()
-        num = queue.push(profile.user_id, profile.display_name)
+        try:
+            num = queue.push(profile.user_id, profile.display_name)
+        except:
+            return TextSendMessage(text="You are already in line. Please cancel your number first.")
+
         bubble = BubbleContainer(
             direction='ltr',
             body=BoxComponent(
@@ -111,7 +115,7 @@ def parsePostback(event, profile):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=PostbackAction(label="取消抽號", data="number", text="已抽取，請稍後") #URIAction(label='CALL', uri='tel:000000'),
+                        action=PostbackAction(label="取消抽號", data="cancel", text="Canceled. Please wait a moment.") #URIAction(label='CALL', uri='tel:000000'),
                     ),
                     # separator
                     SeparatorComponent(),
@@ -119,13 +123,23 @@ def parsePostback(event, profile):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label="現在進度", uri="https://example.com")
+                        action=PostbackAction(label="現在進度", data="progress")
                     )
                 ]
             ),
         )
 
-    return FlexSendMessage(alt_text="號碼牌", contents=bubble)
+        return FlexSendMessage(alt_text="號碼牌", contents=bubble)
+    
+    elif event.postback.data == "cancel":
+        queue = api.number.UserQueue()
+        queue.pop(uuid = profile.user_id)
+
+        return TextSendMessage(text="Deleted")
+
+    elif event.postback.data == "progress":
+        queue = api.number.UserQueue()
+        return TextSendMessage(text="There are {} people waiting in front of you".format(len(queue.waitingList()) - 1))
 
 def parseBeacon(event, profile):
     '''reply = "現在時間: {}\n Hardware id: {}\n Device message: {}\n 你正在: {}".format(
@@ -148,7 +162,7 @@ def parseBeacon(event, profile):
                 layout='vertical',
                 contents=[
                     # title
-                    TextComponent(text="臺灣匯豐銀行", weight='bold', size='xl'),
+                    TextComponent(text="NTUEE Bank", weight='bold', size='xl'),
                     # review
                     BoxComponent(
                         layout='baseline',
@@ -174,7 +188,7 @@ def parseBeacon(event, profile):
                                         flex=2
                                     ),
                                     TextComponent(
-                                        text='臺北市信義分行',
+                                        text='明達305',
                                         wrap=True,
                                         color='#666666',
                                         size='sm',

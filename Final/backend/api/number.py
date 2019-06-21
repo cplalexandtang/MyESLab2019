@@ -3,7 +3,7 @@ import datetime
 
 class UserQueue:
     def __init__(self):
-        self.conn = sqlite3.connect("/home/cplalexandtang/summerbot/api/db/db.sqlite3")
+        self.conn = sqlite3.connect("/home/ntuee/MyESLab2019/Final/backend/api/db/db.sqlite3")
         self.cur = self.conn.cursor()
     
     def tail(self):
@@ -32,8 +32,22 @@ class UserQueue:
             res[i] = res[i][0]
         return res
 
-def getNewNumber():
-    pass
+    def pop(self, uuid = None, number = None):
+        if uuid:
+            self.cur.execute("DELETE FROM users_in_line WHERE uuid = '" + uuid + "'")
+        elif number:
+            self.cur.execute("DELETE FROM users_in_line WHERE number = '" + number + "'")
+        self.conn.commit()
+
+        return "OK"
+
+    def getId(self, number):
+        self.cur.execute("SELECT uuid FROM users_in_line WHERE number = '" +  number + "'")
+        res = self.cur.fetchall()
+        if len(res):
+            return res[0][0]
+        else:
+            return -1
 
 if __name__ == '__main__':
     u1 = UserQueue()
