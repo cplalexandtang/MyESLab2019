@@ -14,7 +14,7 @@ export default class Monitor extends Component {
 
   handleNext = () => {
     let newState = { ...this.state };
-    axios.delete("https://c78fd341.ngrok.io/delete/" + this.state.now)
+    axios.delete("http://localhost:9487/delete/" + this.state.now)
       .then(res => {
         console.log(res);
       })
@@ -27,7 +27,7 @@ export default class Monitor extends Component {
   }
 
   handleWake = () => {
-    axios.get("https://c78fd341.ngrok.io/call/" + this.state.now)
+    axios.get("http://localhost:9487/call/" + this.state.now)
       .then(res => console.log(res))
       .catch(err => console.log(err))
 
@@ -38,7 +38,7 @@ export default class Monitor extends Component {
   }
 
   update = () => {
-    axios.get("https://c78fd341.ngrok.io/status")
+    axios.get("http://localhost:9487/status")
       .then(res => {
         this.setState(() => {
           console.log(res.data)
@@ -56,7 +56,7 @@ export default class Monitor extends Component {
 
   componentDidMount() {
     this.update();
-    setInterval(() => this.update(), 10000);
+    setInterval(() => this.update(), 1000);
   }
 
   render() {
