@@ -40,7 +40,7 @@ def parsePostback(event, profile):
         try:
             num = queue.push(profile.user_id, profile.display_name)
         except:
-            return TextSendMessage(text="You are already in line. Please cancel your number first.")
+            return TextSendMessage(text="您已抽取號碼牌，請先取消您的號碼")
 
         bubble = BubbleContainer(
             direction='ltr',
@@ -54,7 +54,7 @@ def parsePostback(event, profile):
                         layout='baseline',
                         margin='md',
                         contents=[
-                            TextComponent(text='歡迎光臨您的理財好夥伴，嘎啦嘎啦嘎啦', size='sm', color='#999999', margin='md', flex=0)
+                            TextComponent(text='歡迎光臨您的理財好夥伴', size='sm', color='#999999', margin='md', flex=0)
                         ]
                     ),
                     # info
@@ -115,7 +115,7 @@ def parsePostback(event, profile):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=PostbackAction(label="取消抽號", data="cancel", text="Canceled. Please wait a moment.") #URIAction(label='CALL', uri='tel:000000'),
+                        action=PostbackAction(label="取消抽號", data="cancel", text="請確認是否取消") #URIAction(label='CALL', uri='tel:000000'),
                     ),
                     # separator
                     SeparatorComponent(),
@@ -123,7 +123,7 @@ def parsePostback(event, profile):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=PostbackAction(label="現在進度", data="progress")
+                        action=PostbackAction(label="現在進度", data="progress", text="查詢中，請稍候")
                     )
                 ]
             ),
@@ -132,14 +132,24 @@ def parsePostback(event, profile):
         return FlexSendMessage(alt_text="號碼牌", contents=bubble)
     
     elif event.postback.data == "cancel":
+        msg = TemplateSendMessage(
+            alt_text='您確定嗎?',
+            template=ConfirmTemplate(text='您是否確定要取消該張號碼牌?', actions=[
+                PostbackAction(label="是", data="confirm_cancel", text="取消號碼牌"),
+                PostbackAction(label="否", data="no"),
+            ])
+        )
+        return msg
+
+    elif event.postback.data == "confirm_cancel":
         queue = api.number.UserQueue()
         queue.pop(uuid = profile.user_id)
 
-        return TextSendMessage(text="Deleted")
+        return TextSendMessage(text="已取消您的號碼牌")
 
     elif event.postback.data == "progress":
         queue = api.number.UserQueue()
-        return TextSendMessage(text="There are {} people waiting in front of you".format(len(queue.waitingList()) - 1))
+        return TextSendMessage(text="尚有{}人在等待".format(len(queue.waitingList()) - 1))
 
 def parseBeacon(event, profile):
     '''reply = "現在時間: {}\n Hardware id: {}\n Device message: {}\n 你正在: {}".format(
@@ -152,7 +162,7 @@ def parseBeacon(event, profile):
     bubble = BubbleContainer(
             direction='ltr',
             hero=ImageComponent(
-                url='https://www.hsbc.com.tw/etc/designs/dpws/common/social/logo/Square-1200x1200px.jpg',
+                url='https://imgur.com/GROheAa.jpg',
                 size='full',
                 aspect_ratio='20:13',
                 aspect_mode='cover',
@@ -162,13 +172,13 @@ def parseBeacon(event, profile):
                 layout='vertical',
                 contents=[
                     # title
-                    TextComponent(text="NTUEE Bank", weight='bold', size='xl'),
+                    TextComponent(text="NTUEE Bank Line取號機", weight='bold', size='xl'),
                     # review
                     BoxComponent(
                         layout='baseline',
                         margin='md',
                         contents=[
-                            TextComponent(text='歡迎光臨您的理財好夥伴，嘎啦嘎啦嘎啦', size='sm', color='#999999', margin='md', flex=0)
+                            TextComponent(text='歡迎光臨您的電機理財好夥伴', size='sm', color='#999999', margin='md', flex=0)
                         ]
                     ),
                     # info
@@ -229,7 +239,7 @@ def parseBeacon(event, profile):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=PostbackAction(label="抽號碼牌", data="number", text="已抽取，請稍後") #URIAction(label='CALL', uri='tel:000000'),
+                        action=PostbackAction(label="抽號碼牌", data="number", text="已抽取，請稍候") #URIAction(label='CALL', uri='tel:000000'),
                     ),
                     # separator
                     SeparatorComponent(),
@@ -238,6 +248,14 @@ def parseBeacon(event, profile):
                         style='link',
                         height='sm',
                         action=URIAction(label='優惠訊息', uri="https://example.com")
+                    ),
+                    # separator
+                    SeparatorComponent(),
+                    # websiteAction
+                    ButtonComponent(
+                        style='link',
+                        height='sm',
+                        action=URIAction(label='更多資訊', uri="https://example.com")
                     )
                 ]
             ),

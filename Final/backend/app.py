@@ -11,9 +11,6 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-from flask_socketio import SocketIO, emit
-socketio = SocketIO(app)
-
 # Messenger
 '''@app.route("/webhook", methods=["GET"])
 def validate():
@@ -64,7 +61,7 @@ def status():
 def call(number):
     queue = num.UserQueue()
     id = queue.getId(number)
-    push_message(id)
+    push_message(id, text="輪到您了! 請盡速前來")
 
     return "OK"
 
@@ -73,6 +70,7 @@ def call(number):
 def delete(number):
     queue = num.UserQueue()
     queue.pop(number = number)
+    push_message(id, text="您的號碼已被取消，請重新取號")
 
     return jsonify({
         "status" : "OK"

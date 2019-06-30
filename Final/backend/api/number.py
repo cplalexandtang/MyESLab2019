@@ -3,7 +3,7 @@ import datetime
 
 class UserQueue:
     def __init__(self):
-        self.conn = sqlite3.connect("/home/ntuee/MyESLab2019/Final/backend/api/db/db.sqlite3")
+        self.conn = sqlite3.connect("C:/Users/cplalexandtang/Desktop/MyESLab2019/Final/backend/api/db/db.sqlite3")
         self.cur = self.conn.cursor()
     
     def tail(self):

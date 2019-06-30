@@ -34,8 +34,8 @@ def handle_join(event):
 
 @handler.add(MessageEvent)
 def handle_message(event):
-    print(event.message.text)
-    if event.message.text == "已抽取，請稍後" or event.message.text == "Canceled. Please wait a moment.":
+    #print(event.message.text)
+    if event.message.text in ["已抽取，請稍候", "請確認是否取消", "查詢中，請稍候", "取消號碼牌"]:
         return
 
     profile = line_bot_api.get_profile(event.source.user_id)
@@ -66,5 +66,5 @@ def handle_beacon(event):
     #except LineBotApiError as e:
         #debugger(e)
 
-def push_message(user_id):
-    line_bot_api.push_message(user_id, TextSendMessage(text="Your turn!!!"))
+def push_message(user_id, text):
+    line_bot_api.push_message(user_id, TextSendMessage(text=text))
